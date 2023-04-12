@@ -47,7 +47,6 @@ app.use(function (req: any, res, next) {
 })
 
 app.use('/api/users', userRoutes)
-// app.use('/api/partners', requiresAuth, partnersRoutes)
 
 
 app.use((req, res, next) => {
