@@ -1,11 +1,7 @@
 export default interface SignUpBody {
-  name?: string
+  username?: string
   email?: string
   password?: string
-  phoneNumber?: ''
   confirmPassword?: string
-  matricule?: string
-  role?: {}
   createdAt: Date
-  IdCreateur?: string
 }
