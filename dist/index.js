@@ -62,7 +62,6 @@ app.use(function (req, res, next) {
     }
 });
 app.use('/api/users', users_1.default);
-// app.use('/api/partners', requiresAuth, partnersRoutes)
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, 'Endpoint not found'));
 });

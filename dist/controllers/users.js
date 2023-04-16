@@ -23,15 +23,15 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     const passwordRaw = req.body.password;
     const passwordConf = req.body.confirmPassword;
     try {
-        if (!username ||
-            !email ||
-            !passwordRaw ||
-            !passwordConf) {
+        if (!username || !email || !passwordRaw || !passwordConf) {
             throw (0, http_errors_1.default)(400, "Parameter 'username' or 'email' 'password' must be provided");
         }
         const existingEmail = yield user_1.default.findOne({ email }).exec();
         if (existingEmail) {
             throw (0, http_errors_1.default)(409, 'email already in use, please login instead');
+        }
+        if (passwordRaw !== passwordConf) {
+            throw (0, http_errors_1.default)(409, 'Passwords must match...');
         }
         const passwordHashed = yield bcrypt_1.default.hash(passwordRaw, 10);
         const newUser = yield user_1.default.create({
@@ -77,7 +77,10 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!passwordMatch) {
             throw (0, http_errors_1.default)(401, 'Invalid credentials');
         }
-        return res.json({ token: jsonwebtoken_1.default.sign(Object.assign({}, user), 'RESTFULAPIs') });
+        return res.json({
+            token: jsonwebtoken_1.default.sign(Object.assign({}, user), 'RESTFULAPIs'),
+            _id: user._id,
+        });
     }
     catch (error) {
         console.log(error);
@@ -147,7 +150,7 @@ const items = [
         name: 'Item 5',
         description: 'Description for Item 5',
         image: '~/images/plant1.png',
-    }
+    },
 ];
 const hello = (req, res, next) => {
     try {
