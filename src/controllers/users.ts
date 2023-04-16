@@ -17,12 +17,7 @@ export const signUp: RequestHandler<
   const passwordRaw = req.body.password
   const passwordConf = req.body.confirmPassword
   try {
-    if (
-      !username ||
-      !email ||
-      !passwordRaw ||
-      !passwordConf
-    ) {
+    if (!username || !email || !passwordRaw || !passwordConf) {
       throw createHttpError(
         400,
         "Parameter 'username' or 'email' 'password' must be provided"
@@ -31,6 +26,9 @@ export const signUp: RequestHandler<
     const existingEmail = await UserModel.findOne({ email }).exec()
     if (existingEmail) {
       throw createHttpError(409, 'email already in use, please login instead')
+    }
+    if (passwordRaw !== passwordConf) {
+      throw createHttpError(409, 'Passwords must match...')
     }
     const passwordHashed = await bcrypt.hash(passwordRaw, 10)
     const newUser = await UserModel.create({
@@ -56,7 +54,7 @@ export const getAuthenticatedUser: RequestHandler = async (
   try {
     if (req.user) {
       res.status(201).json({
-        ...req.user._doc
+        ...req.user._doc,
       })
     } else {
       return res.status(401).json({ message: 'Invalid token' })
@@ -88,7 +86,10 @@ export const login: RequestHandler<
     if (!passwordMatch) {
       throw createHttpError(401, 'Invalid credentials')
     }
-    return res.json({ token: jwt.sign({ ...user }, 'RESTFULAPIs') })
+    return res.json({
+      token: jwt.sign({ ...user }, 'RESTFULAPIs'),
+      _id: user._id,
+    })
   } catch (error) {
     console.log(error)
     next(error)
@@ -107,7 +108,8 @@ export const logout: RequestHandler = (req, res, next) => {
 const items = [
   {
     name: 'BITTER LEAF',
-    description: 'Bitter leaf plant jdflsdlfj lfdsjfkdjsklfjsdl sdlfjsdlfkdsjfklds sdfljsdlfjdslkj flksdjflksd fslsdklfjdls ksjflksjdfl klsf klsdf sjklfjdsl sjfklsd f sdflsdj',
+    description:
+      'Bitter leaf plant jdflsdlfj lfdsjfkdjsklfjsdl sdlfjsdlfkdsjfklds sdfljsdlfjdslkj flksdjflksd fslsdklfjdls ksjflksjdfl klsf klsdf sjklfjdsl sjfklsd f sdflsdj',
     image: '~/images/plant1.png',
     button: 'more details',
   },
@@ -128,7 +130,6 @@ const items = [
     description: 'Description for Item 4',
     image: '~/images/plant4.png',
     button: 'see more',
-
   },
   {
     name: 'Item 5',
@@ -152,13 +153,12 @@ const items = [
     description: 'Description for Item 4',
     image: '~/images/plant4.png',
     button: 'see more',
-
   },
   {
     name: 'Item 5',
     description: 'Description for Item 5',
     image: '~/images/plant1.png',
-  }
+  },
 ]
 
 export const hello: RequestHandler = (req, res, next) => {
