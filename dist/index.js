@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
 const users_1 = __importDefault(require("./routes/users"));
+const plants_1 = __importDefault(require("./routes/plants"));
 const morgan_1 = __importDefault(require("morgan"));
 const http_errors_1 = __importStar(require("http-errors"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -40,7 +41,10 @@ const app = (0, express_1.default)();
 const port = validEnv_1.default.PORT || 8080;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'https://comptabilite-dijital.vercel.app'],
+    origin: [
+        'http://localhost:3000',
+        'https://comptabilite-dijital.vercel.app',
+    ],
     credentials: true,
 }));
 app.use((0, morgan_1.default)('dev'));
@@ -62,6 +66,7 @@ app.use(function (req, res, next) {
     }
 });
 app.use('/api/users', users_1.default);
+app.use('/api/plants', plants_1.default);
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404, 'Endpoint not found'));
 });

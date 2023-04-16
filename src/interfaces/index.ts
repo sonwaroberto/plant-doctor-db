@@ -5,3 +5,11 @@ export default interface SignUpBody {
   confirmPassword?: string
   createdAt: Date
 }
+export default interface Plant {
+  name?: string
+  symptoms?: string
+  setting?: string
+  location?: string
+  createdAt: Date
+  userId: string
+}
