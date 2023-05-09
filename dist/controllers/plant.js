@@ -15,15 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.hello = exports.getPlant = exports.addPlant = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const plant_1 = __importDefault(require("../models/plant"));
-const mongodb_1 = require("mongodb");
 const addPlant = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const name = req.body.name;
     const symptoms = req.body.symptoms;
     const setting = req.body.setting;
     const location = req.body.location;
     const userId = req.body.userId;
-    const image = req.body.imageBase64;
-    const imageBuffer = Buffer.from(image, 'base64');
+    const imageSource = req.body.imageSource;
     try {
         if (!name || !symptoms || !setting || !location || !userId) {
             throw (0, http_errors_1.default)(400, 'All the parameters most be filled to create a new plant');
@@ -34,7 +32,7 @@ const addPlant = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             setting,
             location,
             userId,
-            image: new mongodb_1.Binary(imageBuffer),
+            imageSource,
         });
         res.status(201).send(newPlant);
     }

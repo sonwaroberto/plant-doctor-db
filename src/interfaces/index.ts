@@ -12,5 +12,5 @@ export default interface Plant {
   location?: string
   createdAt: Date
   userId: string
-  imageBase64?: any
+  imageSource?: string
 }
