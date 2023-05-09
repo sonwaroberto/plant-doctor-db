@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon dist/index.js",
 		"dev": "nodemon src/index.ts",
-    "build": "npx tsc",
+		"build": "npx tsc",
 		"ts.check": "tsc --project tsconfig.json",
 		"add-build": "git add dist",
 		"test": "echo \"Error: no test specified\" && exit 1",
@@ -29,6 +29,7 @@
 		"@types/http-errors": "^2.0.1",
 		"@types/jsonwebtoken": "^9.0.1",
 		"@types/morgan": "^1.9.4",
+		"@types/multer": "^1.4.7",
 		"@types/node": "^18.11.9",
 		"@types/validator": "^13.7.14",
 		"@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -55,6 +56,7 @@
 		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^6.10.0",
 		"morgan": "^1.10.0",
+		"multer": "^1.4.5-lts.1",
 		"validator": "^13.9.0"
 	}
 }

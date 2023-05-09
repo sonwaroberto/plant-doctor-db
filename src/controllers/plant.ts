@@ -5,6 +5,7 @@ import PlantModel from '../models/plant'
 import bcrypt from 'bcrypt'
 import { assertIsDefined } from '../util/assertIsDefined'
 import jwt from 'jsonwebtoken'
+import { Binary } from 'mongodb'
 
 export const addPlant: RequestHandler<
   unknown,
@@ -17,6 +18,9 @@ export const addPlant: RequestHandler<
   const setting = req.body.setting
   const location = req.body.location
   const userId = req.body.userId
+  const image = req.body.imageBase64
+  const imageBuffer = Buffer.from(image, 'base64')
+
   try {
     if (!name || !symptoms || !setting || !location || !userId) {
       throw createHttpError(
@@ -30,6 +34,7 @@ export const addPlant: RequestHandler<
       setting,
       location,
       userId,
+      image: new Binary(imageBuffer),
     })
     res.status(201).send(newPlant)
   } catch (err) {
