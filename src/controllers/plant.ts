@@ -51,7 +51,8 @@ export const getPlant: RequestHandler<
     if (!userId) {
       throw createHttpError(400, 'Parameters missing')
     }
-    const plants = await PlantModel.find({ userId }).exec()
+    const plants = await PlantModel.find().exec()
+    // const plants = await PlantModel.find({ userId }).exec()
     if (!plants) {
       throw createHttpError(401, 'No plant added yet')
     }

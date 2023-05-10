@@ -47,7 +47,8 @@ const getPlant = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (!userId) {
             throw (0, http_errors_1.default)(400, 'Parameters missing');
         }
-        const plants = yield plant_1.default.find({ userId }).exec();
+        const plants = yield plant_1.default.find().exec();
+        // const plants = await PlantModel.find({ userId }).exec()
         if (!plants) {
             throw (0, http_errors_1.default)(401, 'No plant added yet');
         }
