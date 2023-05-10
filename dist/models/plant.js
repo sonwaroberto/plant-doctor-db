@@ -10,6 +10,7 @@ const plantSchema = new mongoose_1.Schema({
     setting: { type: String, required: true },
     location: { type: String, required: true },
     userId: { type: String, required: true },
+    imageSource: { type: String, required: true },
     createdAt: {
         type: Date,
         default: Date.now,
